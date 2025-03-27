@@ -1,0 +1,721 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище LibraryModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Avtor">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Surname" Type="nvarchar(max)" />
+          <Property Name="Name" Type="nvarchar(max)" />
+          <Property Name="Lastname" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="book">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" />
+          <Property Name="IdAvtor" Type="int" />
+          <Property Name="YearMade" Type="date" />
+          <Property Name="IdIzdanie" Type="int" />
+          <Property Name="IdJanr" Type="int" />
+          <Property Name="CountPage" Type="int" />
+          <Property Name="IsDelete" Type="bit" />
+          <Property Name="IdHall" Type="int" />
+          <Property Name="Shelf" Type="int" />
+        </EntityType>
+        <EntityType Name="Chitatel">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SurName" Type="nvarchar(max)" />
+          <Property Name="Name" Type="nvarchar(max)" />
+          <Property Name="Lastname" Type="nvarchar(max)" />
+          <Property Name="DateBirth" Type="date" />
+          <Property Name="NomerPhone" Type="nvarchar" MaxLength="50" />
+          <Property Name="IsDelete" Type="bit" />
+        </EntityType>
+        <EntityType Name="ChitatelBilet">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Id_Employee" Type="int" />
+          <Property Name="Id_Chitatel" Type="int" />
+          <Property Name="DateReg" Type="date" />
+          <Property Name="IsDelete" Type="bit" />
+        </EntityType>
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Surname" Type="nvarchar(max)" />
+          <Property Name="Name" Type="nvarchar(max)" />
+          <Property Name="Lastname" Type="nvarchar(max)" />
+          <Property Name="IdPost" Type="int" />
+          <Property Name="Phone" Type="nvarchar" MaxLength="50" />
+          <Property Name="BirthDate" Type="date" />
+          <Property Name="Login" Type="nvarchar(max)" />
+          <Property Name="Password" Type="nvarchar(max)" />
+          <Property Name="IsDelete" Type="bit" />
+        </EntityType>
+        <EntityType Name="Hall">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" />
+          <Property Name="CountShelf" Type="int" />
+        </EntityType>
+        <EntityType Name="HistoryReadTicket">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Id_ChitatelBilet" Type="int" />
+          <Property Name="Id_Book" Type="int" />
+          <Property Name="DateStart" Type="date" />
+          <Property Name="DateEnd" Type="date" />
+          <Property Name="Comment" Type="nvarchar(max)" />
+          <Property Name="IsDelete" Type="bit" />
+        </EntityType>
+        <EntityType Name="Izdanie">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Janr">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Post">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <Association Name="FK_book_Avtor">
+          <End Role="Avtor" Type="Self.Avtor" Multiplicity="0..1" />
+          <End Role="book" Type="Self.book" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Avtor">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="book">
+              <PropertyRef Name="IdAvtor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_book_Hall">
+          <End Role="Hall" Type="Self.Hall" Multiplicity="0..1" />
+          <End Role="book" Type="Self.book" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Hall">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="book">
+              <PropertyRef Name="IdHall" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_book_Izdanie">
+          <End Role="Izdanie" Type="Self.Izdanie" Multiplicity="0..1" />
+          <End Role="book" Type="Self.book" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Izdanie">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="book">
+              <PropertyRef Name="IdIzdanie" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_book_Janr">
+          <End Role="Janr" Type="Self.Janr" Multiplicity="0..1" />
+          <End Role="book" Type="Self.book" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Janr">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="book">
+              <PropertyRef Name="IdJanr" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ChitatelBilet_Chitatel">
+          <End Role="Chitatel" Type="Self.Chitatel" Multiplicity="0..1" />
+          <End Role="ChitatelBilet" Type="Self.ChitatelBilet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Chitatel">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ChitatelBilet">
+              <PropertyRef Name="Id_Chitatel" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ChitatelBilet_Employee">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
+          <End Role="ChitatelBilet" Type="Self.ChitatelBilet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ChitatelBilet">
+              <PropertyRef Name="Id_Employee" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Employee_Post">
+          <End Role="Post" Type="Self.Post" Multiplicity="0..1" />
+          <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Post">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="IdPost" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HistoryReadTicket_book">
+          <End Role="book" Type="Self.book" Multiplicity="0..1" />
+          <End Role="HistoryReadTicket" Type="Self.HistoryReadTicket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="book">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="HistoryReadTicket">
+              <PropertyRef Name="Id_Book" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HistoryReadTicket_ChitatelBilet">
+          <End Role="ChitatelBilet" Type="Self.ChitatelBilet" Multiplicity="0..1" />
+          <End Role="HistoryReadTicket" Type="Self.HistoryReadTicket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ChitatelBilet">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="HistoryReadTicket">
+              <PropertyRef Name="Id_ChitatelBilet" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище LibraryModelContainer">
+          <EntitySet Name="Avtor" EntityType="Self.Avtor" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="book" EntityType="Self.book" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Chitatel" EntityType="Self.Chitatel" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ChitatelBilet" EntityType="Self.ChitatelBilet" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Employee" EntityType="Self.Employee" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Hall" EntityType="Self.Hall" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="HistoryReadTicket" EntityType="Self.HistoryReadTicket" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Izdanie" EntityType="Self.Izdanie" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Janr" EntityType="Self.Janr" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Post" EntityType="Self.Post" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_book_Avtor" Association="Self.FK_book_Avtor">
+            <End Role="Avtor" EntitySet="Avtor" />
+            <End Role="book" EntitySet="book" />
+          </AssociationSet>
+          <AssociationSet Name="FK_book_Hall" Association="Self.FK_book_Hall">
+            <End Role="Hall" EntitySet="Hall" />
+            <End Role="book" EntitySet="book" />
+          </AssociationSet>
+          <AssociationSet Name="FK_book_Izdanie" Association="Self.FK_book_Izdanie">
+            <End Role="Izdanie" EntitySet="Izdanie" />
+            <End Role="book" EntitySet="book" />
+          </AssociationSet>
+          <AssociationSet Name="FK_book_Janr" Association="Self.FK_book_Janr">
+            <End Role="Janr" EntitySet="Janr" />
+            <End Role="book" EntitySet="book" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ChitatelBilet_Chitatel" Association="Self.FK_ChitatelBilet_Chitatel">
+            <End Role="Chitatel" EntitySet="Chitatel" />
+            <End Role="ChitatelBilet" EntitySet="ChitatelBilet" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ChitatelBilet_Employee" Association="Self.FK_ChitatelBilet_Employee">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="ChitatelBilet" EntitySet="ChitatelBilet" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Employee_Post" Association="Self.FK_Employee_Post">
+            <End Role="Post" EntitySet="Post" />
+            <End Role="Employee" EntitySet="Employee" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HistoryReadTicket_book" Association="Self.FK_HistoryReadTicket_book">
+            <End Role="book" EntitySet="book" />
+            <End Role="HistoryReadTicket" EntitySet="HistoryReadTicket" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HistoryReadTicket_ChitatelBilet" Association="Self.FK_HistoryReadTicket_ChitatelBilet">
+            <End Role="ChitatelBilet" EntitySet="ChitatelBilet" />
+            <End Role="HistoryReadTicket" EntitySet="HistoryReadTicket" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="LibraryModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Avtor">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Surname" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Lastname" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="book" Relationship="Self.FK_book_Avtor" FromRole="Avtor" ToRole="book" />
+        </EntityType>
+        <EntityType Name="book">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IdAvtor" Type="Int32" />
+          <Property Name="YearMade" Type="DateTime" Precision="0" />
+          <Property Name="IdIzdanie" Type="Int32" />
+          <Property Name="IdJanr" Type="Int32" />
+          <Property Name="CountPage" Type="Int32" />
+          <Property Name="IsDelete" Type="Boolean" />
+          <Property Name="IdHall" Type="Int32" />
+          <Property Name="Shelf" Type="Int32" />
+          <NavigationProperty Name="Avtor" Relationship="Self.FK_book_Avtor" FromRole="book" ToRole="Avtor" />
+          <NavigationProperty Name="Hall" Relationship="Self.FK_book_Hall" FromRole="book" ToRole="Hall" />
+          <NavigationProperty Name="Izdanie" Relationship="Self.FK_book_Izdanie" FromRole="book" ToRole="Izdanie" />
+          <NavigationProperty Name="Janr" Relationship="Self.FK_book_Janr" FromRole="book" ToRole="Janr" />
+          <NavigationProperty Name="HistoryReadTicket" Relationship="Self.FK_HistoryReadTicket_book" FromRole="book" ToRole="HistoryReadTicket" />
+        </EntityType>
+        <EntityType Name="Chitatel">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SurName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Lastname" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="DateBirth" Type="DateTime" Precision="0" />
+          <Property Name="NomerPhone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IsDelete" Type="Boolean" />
+          <NavigationProperty Name="ChitatelBilet" Relationship="Self.FK_ChitatelBilet_Chitatel" FromRole="Chitatel" ToRole="ChitatelBilet" />
+        </EntityType>
+        <EntityType Name="ChitatelBilet">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id_Employee" Type="Int32" />
+          <Property Name="Id_Chitatel" Type="Int32" />
+          <Property Name="DateReg" Type="DateTime" Precision="0" />
+          <Property Name="IsDelete" Type="Boolean" />
+          <NavigationProperty Name="Chitatel" Relationship="Self.FK_ChitatelBilet_Chitatel" FromRole="ChitatelBilet" ToRole="Chitatel" />
+          <NavigationProperty Name="Employee" Relationship="Self.FK_ChitatelBilet_Employee" FromRole="ChitatelBilet" ToRole="Employee" />
+          <NavigationProperty Name="HistoryReadTicket" Relationship="Self.FK_HistoryReadTicket_ChitatelBilet" FromRole="ChitatelBilet" ToRole="HistoryReadTicket" />
+        </EntityType>
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Surname" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Lastname" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IdPost" Type="Int32" />
+          <Property Name="Phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="BirthDate" Type="DateTime" Precision="0" />
+          <Property Name="Login" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IsDelete" Type="Boolean" />
+          <NavigationProperty Name="ChitatelBilet" Relationship="Self.FK_ChitatelBilet_Employee" FromRole="Employee" ToRole="ChitatelBilet" />
+          <NavigationProperty Name="Post" Relationship="Self.FK_Employee_Post" FromRole="Employee" ToRole="Post" />
+        </EntityType>
+        <EntityType Name="Hall">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CountShelf" Type="Int32" />
+          <NavigationProperty Name="book" Relationship="Self.FK_book_Hall" FromRole="Hall" ToRole="book" />
+        </EntityType>
+        <EntityType Name="HistoryReadTicket">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id_ChitatelBilet" Type="Int32" />
+          <Property Name="Id_Book" Type="Int32" />
+          <Property Name="DateStart" Type="DateTime" Precision="0" />
+          <Property Name="DateEnd" Type="DateTime" Precision="0" />
+          <Property Name="Comment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IsDelete" Type="Boolean" />
+          <NavigationProperty Name="book" Relationship="Self.FK_HistoryReadTicket_book" FromRole="HistoryReadTicket" ToRole="book" />
+          <NavigationProperty Name="ChitatelBilet" Relationship="Self.FK_HistoryReadTicket_ChitatelBilet" FromRole="HistoryReadTicket" ToRole="ChitatelBilet" />
+        </EntityType>
+        <EntityType Name="Izdanie">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="book" Relationship="Self.FK_book_Izdanie" FromRole="Izdanie" ToRole="book" />
+        </EntityType>
+        <EntityType Name="Janr">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="book" Relationship="Self.FK_book_Janr" FromRole="Janr" ToRole="book" />
+        </EntityType>
+        <EntityType Name="Post">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Employee" Relationship="Self.FK_Employee_Post" FromRole="Post" ToRole="Employee" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <Association Name="FK_book_Avtor">
+          <End Role="Avtor" Type="Self.Avtor" Multiplicity="0..1" />
+          <End Role="book" Type="Self.book" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Avtor">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="book">
+              <PropertyRef Name="IdAvtor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_book_Hall">
+          <End Role="Hall" Type="Self.Hall" Multiplicity="0..1" />
+          <End Role="book" Type="Self.book" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Hall">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="book">
+              <PropertyRef Name="IdHall" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_book_Izdanie">
+          <End Role="Izdanie" Type="Self.Izdanie" Multiplicity="0..1" />
+          <End Role="book" Type="Self.book" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Izdanie">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="book">
+              <PropertyRef Name="IdIzdanie" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_book_Janr">
+          <End Role="Janr" Type="Self.Janr" Multiplicity="0..1" />
+          <End Role="book" Type="Self.book" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Janr">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="book">
+              <PropertyRef Name="IdJanr" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HistoryReadTicket_book">
+          <End Role="book" Type="Self.book" Multiplicity="0..1" />
+          <End Role="HistoryReadTicket" Type="Self.HistoryReadTicket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="book">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="HistoryReadTicket">
+              <PropertyRef Name="Id_Book" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ChitatelBilet_Chitatel">
+          <End Role="Chitatel" Type="Self.Chitatel" Multiplicity="0..1" />
+          <End Role="ChitatelBilet" Type="Self.ChitatelBilet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Chitatel">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ChitatelBilet">
+              <PropertyRef Name="Id_Chitatel" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ChitatelBilet_Employee">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
+          <End Role="ChitatelBilet" Type="Self.ChitatelBilet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ChitatelBilet">
+              <PropertyRef Name="Id_Employee" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HistoryReadTicket_ChitatelBilet">
+          <End Role="ChitatelBilet" Type="Self.ChitatelBilet" Multiplicity="0..1" />
+          <End Role="HistoryReadTicket" Type="Self.HistoryReadTicket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ChitatelBilet">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="HistoryReadTicket">
+              <PropertyRef Name="Id_ChitatelBilet" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Employee_Post">
+          <End Role="Post" Type="Self.Post" Multiplicity="0..1" />
+          <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Post">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="IdPost" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="LibraryEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Avtor" EntityType="Self.Avtor" />
+          <EntitySet Name="book" EntityType="Self.book" />
+          <EntitySet Name="Chitatel" EntityType="Self.Chitatel" />
+          <EntitySet Name="ChitatelBilet" EntityType="Self.ChitatelBilet" />
+          <EntitySet Name="Employee" EntityType="Self.Employee" />
+          <EntitySet Name="Hall" EntityType="Self.Hall" />
+          <EntitySet Name="HistoryReadTicket" EntityType="Self.HistoryReadTicket" />
+          <EntitySet Name="Izdanie" EntityType="Self.Izdanie" />
+          <EntitySet Name="Janr" EntityType="Self.Janr" />
+          <EntitySet Name="Post" EntityType="Self.Post" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <AssociationSet Name="FK_book_Avtor" Association="Self.FK_book_Avtor">
+            <End Role="Avtor" EntitySet="Avtor" />
+            <End Role="book" EntitySet="book" />
+          </AssociationSet>
+          <AssociationSet Name="FK_book_Hall" Association="Self.FK_book_Hall">
+            <End Role="Hall" EntitySet="Hall" />
+            <End Role="book" EntitySet="book" />
+          </AssociationSet>
+          <AssociationSet Name="FK_book_Izdanie" Association="Self.FK_book_Izdanie">
+            <End Role="Izdanie" EntitySet="Izdanie" />
+            <End Role="book" EntitySet="book" />
+          </AssociationSet>
+          <AssociationSet Name="FK_book_Janr" Association="Self.FK_book_Janr">
+            <End Role="Janr" EntitySet="Janr" />
+            <End Role="book" EntitySet="book" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HistoryReadTicket_book" Association="Self.FK_HistoryReadTicket_book">
+            <End Role="book" EntitySet="book" />
+            <End Role="HistoryReadTicket" EntitySet="HistoryReadTicket" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ChitatelBilet_Chitatel" Association="Self.FK_ChitatelBilet_Chitatel">
+            <End Role="Chitatel" EntitySet="Chitatel" />
+            <End Role="ChitatelBilet" EntitySet="ChitatelBilet" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ChitatelBilet_Employee" Association="Self.FK_ChitatelBilet_Employee">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="ChitatelBilet" EntitySet="ChitatelBilet" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HistoryReadTicket_ChitatelBilet" Association="Self.FK_HistoryReadTicket_ChitatelBilet">
+            <End Role="ChitatelBilet" EntitySet="ChitatelBilet" />
+            <End Role="HistoryReadTicket" EntitySet="HistoryReadTicket" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Employee_Post" Association="Self.FK_Employee_Post">
+            <End Role="Post" EntitySet="Post" />
+            <End Role="Employee" EntitySet="Employee" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище LibraryModelContainer" CdmEntityContainer="LibraryEntities1">
+          <EntitySetMapping Name="Avtor">
+            <EntityTypeMapping TypeName="LibraryModel.Avtor">
+              <MappingFragment StoreEntitySet="Avtor">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Surname" ColumnName="Surname" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Lastname" ColumnName="Lastname" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="book">
+            <EntityTypeMapping TypeName="LibraryModel.book">
+              <MappingFragment StoreEntitySet="book">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="IdAvtor" ColumnName="IdAvtor" />
+                <ScalarProperty Name="YearMade" ColumnName="YearMade" />
+                <ScalarProperty Name="IdIzdanie" ColumnName="IdIzdanie" />
+                <ScalarProperty Name="IdJanr" ColumnName="IdJanr" />
+                <ScalarProperty Name="CountPage" ColumnName="CountPage" />
+                <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+                <ScalarProperty Name="IdHall" ColumnName="IdHall" />
+                <ScalarProperty Name="Shelf" ColumnName="Shelf" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Chitatel">
+            <EntityTypeMapping TypeName="LibraryModel.Chitatel">
+              <MappingFragment StoreEntitySet="Chitatel">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="SurName" ColumnName="SurName" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Lastname" ColumnName="Lastname" />
+                <ScalarProperty Name="DateBirth" ColumnName="DateBirth" />
+                <ScalarProperty Name="NomerPhone" ColumnName="NomerPhone" />
+                <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ChitatelBilet">
+            <EntityTypeMapping TypeName="LibraryModel.ChitatelBilet">
+              <MappingFragment StoreEntitySet="ChitatelBilet">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Id_Employee" ColumnName="Id_Employee" />
+                <ScalarProperty Name="Id_Chitatel" ColumnName="Id_Chitatel" />
+                <ScalarProperty Name="DateReg" ColumnName="DateReg" />
+                <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Employee">
+            <EntityTypeMapping TypeName="LibraryModel.Employee">
+              <MappingFragment StoreEntitySet="Employee">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Surname" ColumnName="Surname" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Lastname" ColumnName="Lastname" />
+                <ScalarProperty Name="IdPost" ColumnName="IdPost" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="BirthDate" ColumnName="BirthDate" />
+                <ScalarProperty Name="Login" ColumnName="Login" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Hall">
+            <EntityTypeMapping TypeName="LibraryModel.Hall">
+              <MappingFragment StoreEntitySet="Hall">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="CountShelf" ColumnName="CountShelf" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="HistoryReadTicket">
+            <EntityTypeMapping TypeName="LibraryModel.HistoryReadTicket">
+              <MappingFragment StoreEntitySet="HistoryReadTicket">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Id_ChitatelBilet" ColumnName="Id_ChitatelBilet" />
+                <ScalarProperty Name="Id_Book" ColumnName="Id_Book" />
+                <ScalarProperty Name="DateStart" ColumnName="DateStart" />
+                <ScalarProperty Name="DateEnd" ColumnName="DateEnd" />
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+                <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Izdanie">
+            <EntityTypeMapping TypeName="LibraryModel.Izdanie">
+              <MappingFragment StoreEntitySet="Izdanie">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Janr">
+            <EntityTypeMapping TypeName="LibraryModel.Janr">
+              <MappingFragment StoreEntitySet="Janr">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Post">
+            <EntityTypeMapping TypeName="LibraryModel.Post">
+              <MappingFragment StoreEntitySet="Post">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="LibraryModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
