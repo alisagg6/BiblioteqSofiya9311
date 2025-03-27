@@ -116,6 +116,9 @@
       <DependentUpon>ReadersPage1.xaml</DependentUpon>
       <Link>Pages\ReadersPage1.xaml.cs</Link>
     </Compile>
+    <Compile Include="Pages\BookPage1.xaml.cs">
+      <DependentUpon>BookPage1.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\AddReader.xaml.cs">
       <DependentUpon>AddReader.xaml</DependentUpon>
     </Compile>
@@ -150,6 +153,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
       <Link>Pages\ReadersPage1.xaml</Link>
+    </Page>
+    <Page Include="Pages\BookPage1.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Windows\AddReader.xaml">
       <SubType>Designer</SubType>
